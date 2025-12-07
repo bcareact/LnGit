@@ -1,3 +1,4 @@
 # LnGit
-This is demo for learn guthub
+This is demo for learn guthub.
+<br>
 Auther - BAC React
