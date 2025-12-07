@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Styled Barcode Generator</title>
+
+  <!-- JsBarcode -->
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <!-- canvg -->
+  <script src="https://cdn.jsdelivr.net/npm/canvg@4.1.6/lib/umd.min.js"></script>
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      padding: 40px;
+      background: linear-gradient(140deg, #000000, #4305d4);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(18px);
+      border-radius: 20px;
+      padding: 28px;
+      width: 100%;
+      max-width: 650px;
+      box-shadow:
+        0 12px 24px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 26px;
+      text-align: center;
+      letter-spacing: 0.5px;
+      margin-bottom: 18px;
+    }
+
+    label {
+      margin-top: 14px;
+      display: block;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      margin-top: 6px;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input::placeholder {
+      color: #e6e6e6;
+    }
+
+    input:focus,
+    select:focus {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.4px;
+      color: #fff;
+      transition: 0.25s;
+    }
+
+    .primary-btn {
+      background: linear-gradient(90deg, #4c9fff, #7744ff);
+    }
+
+    .secondary-btn {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      filter: brightness(1.1);
+    }
+
+    .preview {
+      background: #fff;
+      padding: 18px;
+      border-radius: 16px;
+      margin-top: 22px;
+      display: inline-block;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    #barcode {
+      display: block;
+    }
+
+    .meta {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>🌟 Styled Barcode Generator</h1>
+
+    <label for="value">Enter Barcode Value</label>
+    <input id="value" type="text" placeholder="Enter text or number" value="HELLO-1234" />
+
+    <label for="format">Select Barcode Format</label>
+    <select id="format">
+      <option value="CODE128">CODE128</option>
+      <option value="EAN13">EAN13</option>
+      <option value="UPC">UPC</option>
+      <option value="CODE39">CODE39</option>
+      <option value="ITF14">ITF14</option>
+    </select>
+
+    <div class="controls">
+      <button class="primary-btn" id="generate">Generate</button>
+      <button class="secondary-btn" id="download-svg">Download SVG</button>
+      <button class="secondary-btn" id="download-png">Download PNG</button>
+    </div>
+
+    <div class="preview">
+      <svg id="barcode"></svg>
+    </div>
+
+    <div class="meta" id="meta"></div>
+  </div>
+
+  <script>
+    const valueInput = document.getElementById('value');
+    const formatSelect = document.getElementById('format');
+    const barcodeSvg = document.getElementById('barcode');
+    const meta = document.getElementById('meta');
+
+    function render() {
+      try {
+        JsBarcode(barcodeSvg, valueInput.value, {
+          format: formatSelect.value,
+          displayValue: true,
+          background: "#ffffff",
+          lineColor: "#000",
+          height: 80,
+          width: 2,
+        });
+
+        meta.textContent = "Generated Successfully ✓";
+      } catch (err) {
+        meta.textContent = "Error: " + err.message;
+      }
+    }
+
+    render();
+
+    valueInput.addEventListener("input", () => setTimeout(render, 200));
+    formatSelect.addEventListener("change", render);
+    document.getElementById("generate").addEventListener("click", render);
+  </script>
+</body>
+
+</html>
